@@ -221,3 +221,9 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Banco de dados local da barbearia
+barbearia.db
+barbearia.db-journal
+barbearia.db-wal
+barbearia.db-shm
