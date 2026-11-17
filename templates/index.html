@@ -1,0 +1,133 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+    <title>Chita do Corte - Controle Diário</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+    <header>
+        <h1>Barbearia Chita do Corte</h1>
+        <p>Controle de atendimentos e pagamentos</p>
+    </header>
+
+    <main>
+        {% if mensagem %}
+        <div class="aviso" role="status">
+            {{ mensagem }}
+        </div>
+        {% endif %}
+
+        <section class="card">
+            <h2>Resumo do dia</h2>
+
+            <div class="resumo">
+                <div class="indicador">
+                    Atendimentos
+                    <strong>
+                        {{ resumo.atendimentos_dia }}
+                    </strong>
+                </div>
+
+                <div class="indicador">
+                    Recebido hoje
+                    <strong>
+                        {{ moeda(resumo.recebido_centavos) }}
+                    </strong>
+                </div>
+
+                <div class="indicador">
+                    Total pendente
+                    <strong>
+                        {{ moeda(resumo.pendente_total_centavos) }}
+                    </strong>
+                </div>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>Novo atendimento</h2>
+
+            <form method="POST"
+                  action="{{ url_for('novo_atendimento') }}">
+
+                <input type="hidden"
+                       name="csrf_token"
+                       value="{{ csrf_token }}">
+
+                <label for="servico">Serviço realizado</label>
+                <select id="servico"
+                        name="id_servico"
+                        required>
+                    {% for servico in servicos %}
+                    <option value="{{ servico.id_servico }}">
+                        {{ servico.nome }}
+                    </option>
+                    {% endfor %}
+                </select>
+
+                <label for="status">
+                    Situação do pagamento
+                </label>
+
+                <select id="status"
+                        name="status_pagamento"
+                        required>
+                    <option value="PAGO">Pago</option>
+                    <option value="PENDENTE">
+                        Ficou devendo
+                    </option>
+                </select>
+
+                <label for="cliente">
+                    Nome ou apelido do cliente
+                </label>
+
+                <input id="cliente"
+                       name="referencia_cliente"
+                       maxlength="100"
+                       placeholder="Obrigatório se ficou devendo">
+
+                <p>
+                    <button type="submit">
+                        Salvar atendimento
+                    </button>
+                </p>
+            </form>
+        </section>
+
+        <section class="card">
+            <h2>Pagamentos pendentes</h2>
+
+            {% for item in pendencias %}
+            <div class="pendencia">
+                <strong>{{ item.referencia_cliente }}</strong>
+                <p>{{ moeda(item.valor_cobrado_centavos) }}</p>
+
+                <form method="POST"
+                      action="{{ url_for(
+                          'pagar_atendimento',
+                          id_atendimento=item.id_atendimento
+                      ) }}">
+
+                    <input type="hidden"
+                           name="csrf_token"
+                           value="{{ csrf_token }}">
+
+                    <button type="submit">
+                        Marcar como pago
+                    </button>
+                </form>
+            </div>
+            {% else %}
+            <p>Nenhum pagamento pendente.</p>
+            {% endfor %}
+        </section>
+    </main>
+</body>
+</html>
