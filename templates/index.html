@@ -1,16 +1,16 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Chita do Corte - Controle Diário</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
 </head>
 
 <body>
+
     <header>
         <h1>Barbearia Chita do Corte</h1>
         <p>Controle de atendimentos e pagamentos</p>
@@ -53,17 +53,12 @@
         <section class="card">
             <h2>Novo atendimento</h2>
 
-            <form method="POST"
-                  action="{{ url_for('novo_atendimento') }}">
+            <form method="POST" action="{{ url_for('novo_atendimento') }}">
 
-                <input type="hidden"
-                       name="csrf_token"
-                       value="{{ csrf_token }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
 
                 <label for="servico">Serviço realizado</label>
-                <select id="servico"
-                        name="id_servico"
-                        required>
+                <select id="servico" name="id_servico" required>
                     {% for servico in servicos %}
                     <option value="{{ servico.id_servico }}">
                         {{ servico.nome }}
@@ -75,9 +70,7 @@
                     Situação do pagamento
                 </label>
 
-                <select id="status"
-                        name="status_pagamento"
-                        required>
+                <select id="status" name="status_pagamento" required>
                     <option value="PAGO">Pago</option>
                     <option value="PENDENTE">
                         Ficou devendo
@@ -88,10 +81,8 @@
                     Nome ou apelido do cliente
                 </label>
 
-                <input id="cliente"
-                       name="referencia_cliente"
-                       maxlength="100"
-                       placeholder="Obrigatório se ficou devendo">
+                <input id="cliente" name="referencia_cliente" maxlength="100"
+                    placeholder="Obrigatório se ficou devendo">
 
                 <p>
                     <button type="submit">
@@ -109,15 +100,12 @@
                 <strong>{{ item.referencia_cliente }}</strong>
                 <p>{{ moeda(item.valor_cobrado_centavos) }}</p>
 
-                <form method="POST"
-                      action="{{ url_for(
+                <form method="POST" action="{{ url_for(
                           'pagar_atendimento',
                           id_atendimento=item.id_atendimento
                       ) }}">
 
-                    <input type="hidden"
-                           name="csrf_token"
-                           value="{{ csrf_token }}">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
 
                     <button type="submit">
                         Marcar como pago
@@ -129,5 +117,8 @@
             {% endfor %}
         </section>
     </main>
+    <script src="{{ url_for('static', filename='js/notificacoes.js') }}" defer></script>
+
 </body>
+
 </html>
