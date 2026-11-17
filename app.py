@@ -1,4 +1,4 @@
-@app.rout("/")
+@app.route("/")
 def inicio(): 
   return """
   <html lang="pt-BR"> 
