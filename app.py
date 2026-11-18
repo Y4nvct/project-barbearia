@@ -28,9 +28,6 @@ app.config.update(
     SESSION_COOKIE_SAMESITE="Lax"
 )
 
-criar_tabelas()
-
-
 def moeda(centavos):
     valor = f"{centavos / 100:,.2f}"
     valor = valor.replace(",", "X")
@@ -175,5 +172,6 @@ def sair():
 
 
 if __name__ == "__main__":
+    criar_tabelas()
     app.run(debug=False)
 
