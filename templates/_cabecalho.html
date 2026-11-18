@@ -1,0 +1,22 @@
+<header class="cabecalho">
+  <div class="controles-visuais">
+    <button id="alternar-contraste" class="botao-contraste" type="button" aria-pressed="false">
+      Alto contraste
+    </button>
+
+    <button id="alternar-modo-escuro" class="botao-tema" type="button" aria-label="Ativar modo escuro"
+      aria-pressed="false" title="Ativar modo escuro">
+      <span id="icone-tema" aria-hidden="true">☾</span>
+    </button>
+  </div>
+
+  <h1>Barbearia Chita do Corte</h1>
+
+  <p>
+    {% if request.endpoint == "entrar" %}
+    Acesso ao sistema
+    {% else %}
+    Controle de atendimentos e pagamentos
+    {% endif %}
+  </p>
+</header>

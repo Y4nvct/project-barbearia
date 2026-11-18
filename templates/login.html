@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Login - Chita do Corte</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    {% include "_cabecalho.html" %}
+
+    <main>
+        <section class="card">
+            <h2>Entrar</h2>
+
+            {% if mensagem %}
+            <div class="aviso" role="alert">
+                {{ mensagem }}
+            </div>
+            {% endif %}
+
+            <form method="POST" action="{{ url_for('entrar') }}">
+
+                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+                <label for="login">Usuário</label>
+                <input id="login" name="login" autocomplete="username" required>
+
+                <label for="senha">Senha</label>
+                <input type="password" id="senha" name="senha" autocomplete="current-password" required>
+
+                <p>
+                    <button type="submit">
+                        Entrar no sistema
+                    </button>
+                </p>
+            </form>
+        </section>
+    </main>
+    <script src="{{ url_for('static', filename='js/acessibilidade.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='js/notificacoes.js') }}" defer></script>
+</body>
+
+</html>

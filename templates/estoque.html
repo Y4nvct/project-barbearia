@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Controle de Estoque - Chita do Corte</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+  {% include "_cabecalho.html" %}
+
+  <main>
+
+    <p>
+      <a href="{{ url_for('inicio') }}">
+        Voltar ao painel financeiro
+      </a>
+    </p>
+
+    {% if mensagem %}
+    <div class="aviso" role="status">
+      {{ mensagem }}
+    </div>
+    {% endif %}
+
+    <section class="card">
+      <h2>Controle de estoque</h2>
+      <p>Gerencie os materiais utilizados na barbearia.</p>
+    </section>
+
+    <section class="card">
+      <h2>Cadastrar produto</h2>
+
+      <form method="POST" action="{{ url_for('salvar_produto') }}">
+
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+        <label for="nome">Nome do produto</label>
+        <input type="text" id="nome" name="nome" maxlength="100" placeholder="Ex.: Shampoo" required>
+
+        <label for="unidade">Unidade de medida</label>
+        <select id="unidade" name="unidade">
+          <option value="un">Unidade</option>
+          <option value="cx">Caixa</option>
+          <option value="pct">Pacote</option>
+          <option value="ml">Mililitro</option>
+          <option value="g">Grama</option>
+        </select>
+
+        <label for="estoque_minimo">
+          Quantidade mínima desejada
+        </label>
+
+        <input type="number" id="estoque_minimo" name="estoque_minimo" min="0" value="2" required>
+
+        <button type="submit">
+          Cadastrar produto
+        </button>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2>Entrada e saída de materiais</h2>
+
+      {% if produtos %}
+
+      <form method="POST" action="{{ url_for('salvar_movimentacao') }}">
+
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+        <label for="produto">Produto</label>
+
+        <select id="produto" name="id_produto" required>
+
+          {% for produto in produtos %}
+          <option value="{{ produto.id_produto }}">
+            {{ produto.nome }}
+          </option>
+          {% endfor %}
+        </select>
+
+        <label for="tipo">Tipo de movimentação</label>
+
+        <select id="tipo" name="tipo" required>
+          <option value="ENTRADA">Entrada</option>
+          <option value="SAIDA">Saída</option>
+        </select>
+
+        <label for="quantidade">Quantidade</label>
+        <input type="number" id="quantidade" name="quantidade" min="1" required>
+
+        <label for="observacao">
+          Observação (opcional)
+        </label>
+
+        <input type="text" id="observacao" name="observacao" maxlength="200" placeholder="Ex.: Compra de materiais">
+
+        <button type="submit">
+          Registrar movimentação
+        </button>
+
+      </form>
+
+      {% else %}
+
+      <p>Cadastre um produto para começar.</p>
+
+      {% endif %}
+    </section>
+
+    <section class="card">
+      <h2>Materiais cadastrados</h2>
+
+      {% for produto in produtos %}
+
+      <div class="indicador">
+        <strong>{{ produto.nome }}</strong>
+
+        <p>
+          Quantidade:
+          {{ produto.quantidade }}
+          {{ produto.unidade }}
+        </p>
+
+        <p>
+          Estoque mínimo:
+          {{ produto.estoque_minimo }}
+        </p>
+
+        {% if produto.quantidade <= produto.estoque_minimo %} <p><strong>Estoque baixo — verificar reposição</strong>
+          </p>
+          {% else %}
+          <p>Estoque normal</p>
+          {% endif %}
+      </div>
+
+      {% else %}
+
+      <p>Nenhum material cadastrado.</p>
+
+      {% endfor %}
+    </section>
+    <section class="card" id="historico-movimentacoes">
+      <h2>Histórico de movimentações</h2>
+      <p>Entradas e saídas, da mais recente para a mais antiga.</p>
+
+      {% for movimentacao in movimentacoes %}
+      <article class="pendencia">
+        <h3>{{ movimentacao.nome }}</h3>
+        <p>
+          <strong>{{ 'Entrada' if movimentacao.tipo == 'ENTRADA' else 'Saída' }}:</strong>
+          {{ movimentacao.quantidade }} {{ movimentacao.unidade }}
+        </p>
+        <p>
+          Data e hora:
+          <time datetime="{{ movimentacao.data_movimentacao }}">{{ movimentacao.data_movimentacao | replace('T', ' ') }}</time>
+        </p>
+        <p>Observação: {{ movimentacao.observacao or 'Sem observação.' }}</p>
+      </article>
+      {% else %}
+      <p>Nenhuma movimentação registrada.</p>
+      {% endfor %}
+    </section>
+  </main>
+
+  <script src="{{ url_for('static', filename='js/notificacoes.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/acessibilidade.js') }}" defer></script>
+
+</body>
+
+</html>

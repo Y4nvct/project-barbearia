@@ -1,0 +1,395 @@
+/* Estilos gerais */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: #f3f4f6;
+    color: #172033;
+}
+
+/* Cabeçalho */
+header {
+    background: #172033;
+    color: white;
+    padding: 22px;
+    text-align: center;
+}
+
+h1,
+h2 {
+    margin-top: 0;
+}
+
+/* Conteúdo principal */
+main {
+    max-width: 850px;
+    margin: 24px auto;
+    padding: 0 16px;
+}
+
+/* Cartões */
+.card {
+    background: white;
+    padding: 24px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px #00000012;
+}
+
+/* Resumo financeiro */
+.resumo {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,
+            minmax(160px, 1fr));
+    gap: 12px;
+}
+
+.indicador {
+    padding: 18px;
+    background: #edf2f7;
+    border-radius: 10px;
+}
+
+.indicador strong {
+    display: block;
+    margin-top: 8px;
+    font-size: 25px;
+}
+
+/* Formulários */
+label {
+    display: block;
+    font-weight: bold;
+    margin: 16px 0 8px;
+}
+
+input,
+select,
+button {
+    width: 100%;
+    min-height: 48px;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 8px;
+}
+
+input,
+select {
+    border: 1px solid #a7b0bd;
+}
+
+button {
+    background: #166534;
+    color: white;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #14532d;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+    outline: 3px solid #2563eb;
+    outline-offset: 2px;
+}
+
+/* Pagamentos pendentes */
+.pendencia {
+    padding: 14px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.pendencia form {
+    margin-top: 10px;
+}
+
+/* Mensagens do sistema */
+.aviso {
+    padding: 14px;
+    background: #fff3cc;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+    main {
+        margin: 16px auto;
+        padding: 0 12px;
+    }
+
+    .card {
+        padding: 18px;
+    }
+
+    .resumo {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Modo Escuro */
+body.modo-escuro {
+    background: #171b23;
+    color: #f1f5f9;
+}
+
+.modo-escuro header {
+    background: #111827;
+    color: #ffffff;
+}
+
+.modo-escuro .card {
+    background: #252c38;
+    color: #f1f5f9;
+    box-shadow: 0 2px 10px #00000030;
+}
+
+.modo-escuro .indicador {
+    background: #343e4e;
+    color: #ffffff;
+}
+
+.modo-escuro input,
+.modo-escuro select {
+    background: #1b2230;
+    border: 1px solid #94a3b8;
+    color: #ffffff;
+}
+
+.modo-escuro input::placeholder {
+    color: #cbd5e1;
+}
+
+.modo-escuro button:not(.botao-acessibilidade) {
+    background: #198754;
+    color: #ffffff;
+}
+
+.modo-escuro .botao-acessibilidade {
+    background: #374151;
+    color: #ffffff;
+    border: 2px solid #94a3b8;
+}
+
+.modo-escuro .pendencia {
+    border-color: #64748b;
+}
+
+.modo-escuro .aviso {
+    background: #665019;
+    color: #ffffff;
+}
+
+/* Cabeçalho compartilhado */
+.cabecalho {
+    position: relative;
+    padding: 65px 22px 25px;
+}
+
+.controles-visuais {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.controles-visuais button {
+    width: auto;
+    min-height: 46px;
+    margin: 0;
+    cursor: pointer;
+}
+
+.botao-tema {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px !important;
+    height: 46px;
+    padding: 0;
+    border-radius: 50%;
+    background: #e5e7eb;
+    color: #172033;
+    border: 2px solid #ffffff;
+    font-size: 27px;
+}
+
+.botao-contraste {
+    padding: 10px 15px;
+    border-radius: 8px;
+    background: #e5e7eb;
+    color: #172033;
+    border: 2px solid #ffffff;
+    font-weight: bold;
+}
+
+/* Modo escuro */
+body.modo-escuro {
+    background: #171b23;
+    color: #f1f5f9;
+}
+
+.modo-escuro .cabecalho {
+    background: #111827;
+}
+
+.modo-escuro .card {
+    background: #252c38;
+    color: #f1f5f9;
+}
+
+.modo-escuro .indicador {
+    background: #343e4e;
+    color: #ffffff;
+}
+
+.modo-escuro input,
+.modo-escuro select {
+    background: #1b2230;
+    color: #ffffff;
+    border: 1px solid #94a3b8;
+}
+
+.modo-escuro input::placeholder {
+    color: #cbd5e1;
+}
+
+.modo-escuro .pendencia {
+    border-color: #94a3b8;
+}
+
+/* Alto contraste */
+body.alto-contraste {
+    background: #000000;
+    color: #ffffff;
+    font-size: 18px;
+}
+
+.alto-contraste .cabecalho,
+.alto-contraste .card,
+.alto-contraste .indicador {
+    background: #111111;
+    color: #ffffff;
+    border: 2px solid #ffffff;
+    box-shadow: none;
+}
+
+.alto-contraste input,
+.alto-contraste select {
+    background: #000000;
+    color: #ffffff;
+    border: 2px solid #ffffff;
+}
+
+.alto-contraste input::placeholder {
+    color: #ffffff;
+}
+
+.alto-contraste .card button {
+    background: #ffeb00;
+    color: #000000;
+}
+
+.alto-contraste .aviso {
+    background: #ffeb00;
+    color: #000000;
+}
+
+/* Botões de tema em todos os modos */
+.controles-visuais .botao-tema,
+.controles-visuais .botao-contraste {
+    background: #e5e7eb;
+    color: #172033;
+    border: 2px solid #ffffff;
+}
+
+.modo-escuro .controles-visuais .botao-tema,
+.modo-escuro .controles-visuais .botao-contraste {
+    background: #374151;
+    color: #ffffff;
+}
+
+.alto-contraste .controles-visuais .botao-tema,
+.alto-contraste .controles-visuais .botao-contraste {
+    background: #ffeb00;
+    color: #000000;
+    border-color: #ffffff;
+}
+
+.controles-visuais button:focus-visible {
+    outline: 3px solid #ffeb00;
+    outline-offset: 3px;
+}
+
+/* Calendário financeiro */
+.filtro-data {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 14px;
+}
+
+.campo-data {
+    flex: 1 1 230px;
+}
+
+.filtro-data .campo-data label {
+    margin-top: 0;
+}
+
+.filtro-data button {
+    width: auto;
+    min-width: 150px;
+}
+
+.comparacao {
+    padding: 16px;
+    background: #edf2f7;
+    border-radius: 10px;
+}
+
+.comparacao hr {
+    border: none;
+    border-top: 1px solid #cbd5e1;
+    margin: 18px 0;
+}
+
+/* Compatibilidade com modo escuro */
+.modo-escuro .comparacao {
+    background: #343e4e;
+    color: #ffffff;
+}
+
+.modo-escuro .comparacao hr {
+    border-color: #64748b;
+}
+
+/* Compatibilidade com alto contraste */
+.alto-contraste .comparacao {
+    background: #111111;
+    color: #ffffff;
+    border: 2px solid #ffffff;
+}
+
+.alto-contraste .comparacao hr {
+    border-color: #ffffff;
+}
+
+@media (max-width: 600px) {
+    .filtro-data button {
+        width: 100%;
+    }
+}
+
+.card form button[type="submit"] {
+    margin-top: 10px;
+}
