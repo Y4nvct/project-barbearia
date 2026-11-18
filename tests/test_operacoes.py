@@ -90,3 +90,37 @@ def test_pendencia_sem_cliente(dados_teste):
 
     with pytest.raises(ValueError):
         registrar_atendimento(servico, usuario, "PENDENTE")
+
+def test_rejeita_nome_cliente_extenso(dados_teste):
+    usuario, servico = dados_teste
+
+    nome_extenso = "A" * 101
+
+    with pytest.raises(ValueError, match="100 caracteres"):
+        registrar_atendimento(
+            servico,
+            usuario,
+            "PENDENTE",
+            nome_extenso
+        )
+
+    resumo = resumo_diario()
+
+    assert resumo["atendimentos_dia"] == 0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
