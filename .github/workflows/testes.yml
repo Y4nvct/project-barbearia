@@ -26,4 +26,6 @@ jobs:
 
       - name: Executar testes e medir cobertura
         run: |
-          python -m pytest -q --cov=app --cov=database --cov=operacoes --cov=configurar --cov-report=term-missing
+          python -m coverage run --source=. --omit="*/tests/*,*/.venv/*" -m pytest -q
+          python -m coverage report -m
+
