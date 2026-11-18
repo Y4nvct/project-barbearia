@@ -65,6 +65,11 @@ def registrar_atendimento(
 
     referencia = (referencia_cliente or "").strip()
 
+    if len(referencia) > 100: 
+        raise ValueError(
+            "O nome do cliente deve ter no maximo 100 caracteres."
+        )
+
     if status_pagamento == "PENDENTE" and not referencia:
         raise ValueError(
             "Informe o nome ou apelido do cliente pendente."
