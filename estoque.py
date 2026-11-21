@@ -3,6 +3,8 @@ from datetime import datetime
 
 from operacoes import abrir_banco
 
+LIMITE_INTEIRO_SQLITE = 2**63 - 1
+
 
 def cadastrar_produto(nome, unidade="un", estoque_minimo=0):
     nome = (nome or "").strip()
@@ -16,6 +18,11 @@ def cadastrar_produto(nome, unidade="un", estoque_minimo=0):
 
     if type(estoque_minimo) is not int or estoque_minimo < 0:
         raise ValueError("O estoque mínimo deve ser zero ou maior.")
+
+    if estoque_minimo > LIMITE_INTEIRO_SQLITE:
+        raise ValueError(
+            f"O estoque mínimo deve ser no máximo {LIMITE_INTEIRO_SQLITE}."
+        )
 
     try:
         with abrir_banco() as banco:
@@ -72,7 +79,7 @@ def listar_movimentacoes():
 
 
 def movimentar_estoque(id_produto, tipo, quantidade, observacao=""):
-    if type(id_produto) is not int or id_produto <= 0:
+    if type(id_produto) is not int or not 0 < id_produto <= LIMITE_INTEIRO_SQLITE:
         raise ValueError("Produto inválido.")
 
     if tipo not in ("ENTRADA", "SAIDA"):
@@ -80,6 +87,9 @@ def movimentar_estoque(id_produto, tipo, quantidade, observacao=""):
 
     if type(quantidade) is not int or quantidade <= 0:
         raise ValueError("A quantidade deve ser positiva.")
+
+    if quantidade > LIMITE_INTEIRO_SQLITE:
+        raise ValueError(f"A quantidade deve ser no máximo {LIMITE_INTEIRO_SQLITE}.")
 
     observacao = (observacao or "").strip()
 
@@ -102,14 +112,18 @@ def movimentar_estoque(id_produto, tipo, quantidade, observacao=""):
             raise ValueError("Produto não encontrado.")
 
         if tipo == "ENTRADA":
-            banco.execute(
+            resultado = banco.execute(
                 """
                 UPDATE produto
                 SET quantidade = quantidade + ?
                 WHERE id_produto = ?
+                  AND quantidade <= ?
                 """,
-                (quantidade, id_produto),
+                (quantidade, id_produto, LIMITE_INTEIRO_SQLITE - quantidade),
             )
+
+            if resultado.rowcount != 1:
+                raise ValueError("A entrada ultrapassa o limite máximo do estoque.")
         else:
             resultado = banco.execute(
                 """

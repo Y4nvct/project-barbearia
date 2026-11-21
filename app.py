@@ -52,7 +52,11 @@ def verificar_acesso():
         recebido = request.form.get("csrf_token", "")
         esperado = session["csrf_token"]
 
-        if not secrets.compare_digest(recebido, esperado):
+        if (
+            not recebido
+            or not recebido.isascii()
+            or not secrets.compare_digest(recebido, esperado)
+        ):
             abort(400)
 
     if request.endpoint in ("entrar", "static"):
